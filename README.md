@@ -21,7 +21,6 @@ FROM konflux-ci/operator-sdk-builder:latest as builder
 COPY ./. /repo
 WORKDIR /repo
 RUN kustomize build config/manifests/ \
-    | envsubst \
     | operator-sdk generate bundle --output-dir build
 
 FROM scratch
