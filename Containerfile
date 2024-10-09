@@ -10,10 +10,15 @@ FROM registry.access.redhat.com/ubi9/go-toolset:1.21.11-7 as kustomize-builder
 COPY ./kustomize/. /opt/app-root/src/
 WORKDIR /opt/app-root/src
 RUN id && ls -al
+
+USER 0
+
 RUN go mod download
 RUN ls -l && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o kustomize ./kustomize
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal@sha256:ef6fb6b3b38ef6c85daebeabebc7ff3151b9dd1500056e6abc9c3295e4b78a51
+
+USER 0
 
 COPY LICENSE /licenses
 COPY --from=osdk-builder /opt/app-root/src/operator-sdk /bin
