@@ -187,6 +187,19 @@ spec:
         workspace: workspace
       - name: basic-auth
         workspace: git-auth
+
+    - name: debug
+      taskSpec:
+        steps:
+          - name: debug
+            image: registry.access.redhat.com/ubi9/ubi-minimal:9.4-1194@sha256:73f7dcacb460dad137a58f24668470a5a2e47378838a0190eef0ab532c6e8998
+            script: |
+              id
+              ls -al $(workspaces.source.path)
+      workspaces:
+      - name: source
+        workspace: workspace
+
     - name: prefetch-dependencies
       params:
       - name: input
