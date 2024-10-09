@@ -165,6 +165,28 @@ spec:
       workspaces:
       - name: basic-auth
         workspace: git-auth
+
+    - name: debug
+      taskSpec:
+        volumes:
+          - emptyDir: {}
+            name: workdir
+        stepTemplate:
+          volumeMounts:
+            - mountPath: /var/workdir
+              name: workdir
+        steps:
+          - name: use-trusted-artifact
+            image: quay.io/redhat-appstudio/build-trusted-artifacts:latest@sha256:e0e457b6af10e44ff6b90208a9e69adc863a865e1c062c4cb84bf3846037d74d
+            args:
+              - use
+              - $(tasks.clone-repository.results.SOURCE_ARTIFACT)=/var/workdir/source
+          - name: debug
+            image: registry.access.redhat.com/ubi9/ubi-minimal:9.4-1194@sha256:73f7dcacb460dad137a58f24668470a5a2e47378838a0190eef0ab532c6e8998
+            script: |
+              id
+              ls -al /var/workdir/source
+
     - name: prefetch-dependencies
       params:
       - name: input
