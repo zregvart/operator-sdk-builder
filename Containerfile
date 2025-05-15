@@ -12,7 +12,7 @@ WORKDIR /opt/app-root/src
 RUN go mod download
 RUN ls -l && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o kustomize ./kustomize
 
-FROM registry.access.redhat.com/ubi9/ubi-minimal@sha256:ef6fb6b3b38ef6c85daebeabebc7ff3151b9dd1500056e6abc9c3295e4b78a51
+FROM registry.access.redhat.com/ubi9/ubi-minimal@sha256:92b1d5747a93608b6adb64dfd54515c3c5a360802db4706765ff3d8470df6290
 
 COPY LICENSE /licenses
 COPY --from=osdk-builder /opt/app-root/src/operator-sdk /bin
