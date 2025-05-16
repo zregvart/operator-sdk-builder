@@ -1,11 +1,11 @@
-FROM registry.access.redhat.com/ubi9/go-toolset:1.21.11-7 as osdk-builder
+FROM registry.access.redhat.com/ubi9/go-toolset:1.23.6-1747333074 as osdk-builder
 
 COPY ./operator-sdk/. /opt/app-root/src/
 WORKDIR /opt/app-root/src
 RUN go mod download
 RUN  ls -l && CGO_ENABLED=0 GOOS=linux GOARCH=amd64  go build -a -o operator-sdk cmd/operator-sdk/main.go
 
-FROM registry.access.redhat.com/ubi9/go-toolset:1.21.11-7 as kustomize-builder
+FROM registry.access.redhat.com/ubi9/go-toolset:1.23.6-1747333074 as kustomize-builder
 
 COPY ./kustomize/. /opt/app-root/src/
 WORKDIR /opt/app-root/src
